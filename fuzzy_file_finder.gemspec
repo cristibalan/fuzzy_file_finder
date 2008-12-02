@@ -4,7 +4,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fuzzy_file_finder}
-  s.version = "1.0.4"
+  s.version = "1.0.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jamis Buck"]
@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "Fuzzy_file_finder", "--main", "README.rdoc"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{fuzzy_file_finder}
-  s.rubygems_version = %q{1.2.0}
+  s.rubygems_version = %q{1.3.1}
   s.summary = %q{an implementation of TextMate's cmd-T search functionality}
 
   if s.respond_to? :specification_version then

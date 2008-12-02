@@ -209,6 +209,13 @@ class FuzzyFileFinder
   def inspect #:nodoc:
     "#<%s:0x%x roots=%s, files=%d>" % [self.class.name, object_id, roots.map { |r| r.name.inspect }.join(", "), files.length]
   end
+  
+  def score_for_name_and_query(name, query)
+    raw = "^(.*?)" + make_pattern(query) + "(.*)$"
+    rex = Regexp.new(raw, Regexp::IGNORECASE)
+    m = name.match(rex)
+    build_match_result(m, 1)[:score]
+  end
 
   private
 
@@ -279,12 +286,25 @@ class FuzzyFileFinder
       #    is better.
       # 2. better coverage of the actual path name is better
 
-      inside_runs = runs.select { |r| r.inside }
-      run_ratio = inside_runs.length.zero? ? 1 : inside_segments / inside_runs.length.to_f
+      nr_inside_runs = runs.select { |r| r.inside }.length
+      mergeable = false
+      mid_sentence_hit = false
+      (0..(match.captures.length / 2 - 1)).each do |x| 
+        i = 2 * x + 1
+        c = match.captures[i]
+        mid_sentence_hit ||= match.captures[i-1][-1,1] =~ /[-_]$/
+        mergeable ||= match.captures[i+1][-c.length,c.length] == c
+      end
+      if mergeable
+        nr_inside_runs -= 1
+      end
+      run_ratio = nr_inside_runs.zero? ? 1 : inside_segments / nr_inside_runs.to_f
 
       char_ratio = total_chars.zero? ? 1 : inside_chars.to_f / total_chars
 
       score = run_ratio * char_ratio
+      score *= 2 if match.captures[0].length == 0
+      score *= 2 if mid_sentence_hit == 0
 
       return { :score => score, :result => runs.join }
     end
