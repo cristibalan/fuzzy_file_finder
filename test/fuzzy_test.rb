@@ -31,5 +31,7 @@ test *%w(public_controller puco pucn) # minimize # runs
 test *%w(publique_controller pc po) # match after word break counts more
 test *%w(public_controller pc po) # match after word break counts more
 ntest *%w(public_controller production puco) # less runs in *much* better
+ntest *%w(star.clj star.png st) # penalty for binaries
+ntest *%w(boot.rb box.png bo) # penalty for binaries
 
 puts "#{$score + $failures} tests, #{$failures} failures."

@@ -305,7 +305,8 @@ class FuzzyFileFinder
       score = char_ratio * (run_ratio ** 2)
       score *= 2 if match.captures[0].length == 0
       score *= 2 if mid_sentence_hit == 0
-
+      score /= 2 if match.string =~ /\.(gif|jpg|png|tiff|exe|pdf|doc|xls|ppt)$/
+      
       return { :score => score, :result => runs.join }
     end
 
