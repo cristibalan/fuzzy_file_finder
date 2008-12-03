@@ -302,7 +302,7 @@ class FuzzyFileFinder
 
       char_ratio = total_chars.zero? ? 1 : inside_chars.to_f / total_chars
 
-      score = run_ratio * char_ratio
+      score = char_ratio * (run_ratio ** 2)
       score *= 2 if match.captures[0].length == 0
       score *= 2 if mid_sentence_hit == 0
 
