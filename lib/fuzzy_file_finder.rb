@@ -319,6 +319,7 @@ class FuzzyFileFinder
       score *= 2 if mid_sentence_hit == 0
       score /= 2 if match.string =~ /\.(gif|jpg|png|tiff|exe|pdf|doc|xls|ppt)$/
       
+      score = 0.001 if score == 0
       return { :score => score, :result => runs.join }
     end
 
